@@ -28,14 +28,12 @@ class GetChart():
     #run
     def btc_1min(self, day = 7):
         # 차트 데이터 가져오기
-        ohlcv = self.exchange.fetch_ohlcv('BTC/USDT', timeframe='1m', limit=1440*day)
-        print("비트코인_1분봉_일주일치 데이터 가져오기 성공")
+        ohlcv = self.exchange.fetch_ohlcv('BTC/USDT', timeframe='1m', limit=1440 * day)
         return self.ohlcv2df(ohlcv)
     
     
     def btc_1day(self, month = 12):
         # 차트 데이터 가져오기
-        ohlcv = self.exchange.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=30*month)
-        print("비트코인_일봉_세달치 데이터 가져오기 성공")
+        ohlcv = self.exchange.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=30 * month)
         return self.ohlcv2df(ohlcv)
 

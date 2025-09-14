@@ -50,6 +50,6 @@ class EventPractal():
     
     def run(self):
         events = self.detect_events()
-        print('----------- 이벤트 포착 완료 -----------')
+        print('-------------이벤트 포착 완료-------------')
         # self.show_detect_events(events)
         return events

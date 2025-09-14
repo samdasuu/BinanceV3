@@ -40,5 +40,5 @@ class PreprocessPractal():
     
     def run(self):
         chart = GetChart().btc_1min(day = 100)
-        print('------------차트 가져오기 완료-------------')
+        print('-------------차트 가져오기 완료-------------')
         return self.preprocess_ohlcv(chart)

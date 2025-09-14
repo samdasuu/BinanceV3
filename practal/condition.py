@@ -8,28 +8,28 @@ def z_norm(series: np.ndarray):
     return (series - series.mean()) / (series.std() + 1e-8)
 
 # --- 패턴 유사도 계산 ---
-def calc_similarity(seq1: np.ndarray, seq2: np.ndarray, weight_corr=0.5, weight_dtw=0.5, scale=10.0):
-    """
-    seq1: 현재 패턴 (예: 최근 60봉)
-    seq2: 과거 패턴 (예: 과거 60봉)
-    weight_corr, weight_dtw: 가중치
-    scale: DTW 점수를 0~1로 변환할 때 사용하는 스케일
-    """
-    # 정규화
-    s1, s2 = z_norm(seq1), z_norm(seq2)
+def calc_similarity(seq1, seq2, weight_corr=0.5, weight_dtw=0.5, scale=10.0):
+    s1 = np.asarray(seq1, dtype=float).ravel()
+    s2 = np.asarray(seq2, dtype=float).ravel()
 
-    # 피어슨 상관
+    if len(s1) != len(s2) or len(s1) == 0:
+        return 0.0, 0.0, 0.0
+
+    # z-score
+    s1 = (s1 - s1.mean()) / (s1.std() + 1e-8)
+    s2 = (s2 - s2.mean()) / (s2.std() + 1e-8)
+
     corr, _ = pearsonr(s1, s2)
-    corr_score = (corr + 1) / 2   # [-1,1] → [0,1]
+    corr_score = (corr + 1) / 2
 
-    # DTW 거리 → 유사도로 변환
-    dist, _ = fastdtw(s1, s2, dist=euclidean)
-    sim_dtw = np.exp(-dist / scale)  # 거리 작을수록 1에 가까움
+    # ★ 핵심: euclidean([a], [b]) 로 감싸기
+    dist, _ = fastdtw(s1.tolist(), s2.tolist(),
+                      dist=lambda a, b: euclidean([a], [b]))
+    sim_dtw = np.exp(-dist / scale)
 
-    # 합성 점수
     final_score = weight_corr * corr_score + weight_dtw * sim_dtw
-
     return corr_score, sim_dtw, final_score
+
 
 
 def check_entry_condition(df, now_idx, past_idx, 
@@ -69,7 +69,7 @@ def check_entry_condition(df, now_idx, past_idx,
 
 
 
-def generate_signals(df, events, window=60, search_back=1000):
+def generate_signals(df, events, window=60, search_back=100000): #TODO
     """
     df: 전처리된 OHLCV 데이터
     events: detect_events 로 찾은 이벤트 시점 리스트
@@ -80,7 +80,8 @@ def generate_signals(df, events, window=60, search_back=1000):
     """
     signals = []
 
-    for event_time in events:
+    for i, event_time in enumerate(events):
+        print(f"-----------{i}/{len(events)}-------------")
         now_idx = df.index.get_loc(event_time)
 
         # 과거 후보 구간들
@@ -162,7 +163,7 @@ class ConditionPractal():
 
     def find(self) -> list:
         signals = generate_signals(self.df, self.events)
-        print('----------- 조건 계산 완료 -----------')
+        print('-------------조건 계산 완료-------------')
         return signals
     
     def exit(self, entry_idx, entry_price):

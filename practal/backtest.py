@@ -10,8 +10,8 @@ siganls = condition.find()
 
 def backtest(df, signals):
     results = []
-
-    for sig in signals:
+    for i, sig in enumerate(signals):
+        print(f'-------------{i}/{len(signals)}-------------')
         entry_idx = sig["now_idx"]
         entry_price = df['close'].iloc[entry_idx]
 
