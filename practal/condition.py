@@ -4,6 +4,7 @@ from scipy.spatial.distance import euclidean
 import numpy as np
 
 WINDOW = 40
+SEARCH_BACK = 100000
 
 
 # --- z-score 정규화 ---
@@ -72,7 +73,7 @@ def check_entry_condition(df, now_idx, past_idx,
 
 
 
-def generate_signals(df, events, window=WINDOW, search_back=1000000): #TODO
+def generate_signals(df, events, window=WINDOW, search_back=SEARCH_BACK): #TODO
     """
     df: 전처리된 OHLCV 데이터
     events: detect_events 로 찾은 이벤트 시점 리스트
