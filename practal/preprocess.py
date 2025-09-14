@@ -1,6 +1,8 @@
 import numpy as np
 from utils.get_data import GetChart
 
+DAY = 100
+
 class PreprocessPractal():
     def preprocess_ohlcv(self, df):
         """
@@ -39,6 +41,6 @@ class PreprocessPractal():
 
     
     def run(self):
-        chart = GetChart().btc_1min(day = 100)
+        chart = GetChart().btc_1min(day = DAY)
         print('-------------차트 가져오기 완료-------------')
         return self.preprocess_ohlcv(chart)

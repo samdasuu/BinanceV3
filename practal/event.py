@@ -29,14 +29,15 @@ class EventPractal():
         return bool(cond1 or cond2)
 
 
-    def detect_events(self, vol_mult=2.0, lookback_mom=15):
+    def detect_events(self, vol_mult=2.0):
         """
         거래량 스파이크 + 모멘텀 조건이 동시에 충족된 시점들의 인덱스 반환
         """
         events = []
         for i in range(len(self.df)):
             row = self.df.iloc[i]
-            if self.is_volume_spike(row, vol_mult) and self.has_up_momentum(i, lookback_mom):
+            # if self.is_volume_spike(row, vol_mult) and self.has_up_momentum(i, lookback_mom):
+            if self.is_volume_spike(row, vol_mult):
                 events.append(self.df.index[i])
         return events
 

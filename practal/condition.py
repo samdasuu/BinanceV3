@@ -3,6 +3,9 @@ from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 import numpy as np
 
+WINDOW = 40
+
+
 # --- z-score 정규화 ---
 def z_norm(series: np.ndarray):
     return (series - series.mean()) / (series.std() + 1e-8)
@@ -33,8 +36,8 @@ def calc_similarity(seq1, seq2, weight_corr=0.5, weight_dtw=0.5, scale=10.0):
 
 
 def check_entry_condition(df, now_idx, past_idx, 
-                          window=40, future_window=20, 
-                          vol_mult=2.0, rise_thr=0.05):
+                          window=WINDOW, future_window=10, 
+                          vol_mult=2.0, rise_thr=0.03):
     """
     df: 전처리된 OHLCV 데이터프레임
     now_idx: 현재 이벤트 끝 인덱스
@@ -69,7 +72,7 @@ def check_entry_condition(df, now_idx, past_idx,
 
 
 
-def generate_signals(df, events, window=30, search_back=1000000): #TODO
+def generate_signals(df, events, window=WINDOW, search_back=1000000): #TODO
     """
     df: 전처리된 OHLCV 데이터
     events: detect_events 로 찾은 이벤트 시점 리스트
@@ -119,7 +122,7 @@ def generate_signals(df, events, window=30, search_back=1000000): #TODO
 
     return signals
 
-def simulate_exit(df, entry_idx, entry_price, window=30, 
+def simulate_exit(df, entry_idx, entry_price, window=WINDOW, 
                   max_horizon=60, take_profit=0.08, 
                   stop_corr=0.5):
     """
