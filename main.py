@@ -1,6 +1,7 @@
 from sma_strategy import SMAStrategy
 from backtesting import Backtest
-from get_chart_df import GetChart
+from utils.get_data import GetChart
+import pandas as pd
 
 CASH = 100000000
 COMMISSION = .02
@@ -8,7 +9,13 @@ COMMISSION = .02
 class RunBacktestStrategy():
     def __init__(self, df, strategy):
         self.strategy = strategy
-        self.df = df
+        self.df = df.rename(
+            columns={'open': 'Open', 
+                     'high': 'High',
+                     'low': 'Low',
+                     'close': 'Close',
+                     'volume': 'Volume'}
+        )
 
     def run(self):
         bt = Backtest(data=self.df, strategy=self.strategy, cash=CASH, commission=COMMISSION)
