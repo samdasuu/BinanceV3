@@ -3,12 +3,14 @@ from practal.condition import ConditionPractal
 from practal.event import EventPractal
 from practal.preprocess import PreprocessPractal
 
-df = PreprocessPractal().run()
-events = EventPractal(df).run()
-condition = ConditionPractal(df, events)
-siganls = condition.find()
 
-def backtest(df, signals):
+
+def backtest():
+    df = PreprocessPractal().run()
+    events = EventPractal(df).run()
+    condition = ConditionPractal(df, events)
+    signals = condition.find()
+    print(f'number of signals {len(signals)}')
     results = []
     for i, sig in enumerate(signals):
         print(f'-------------{i}/{len(signals)}-------------')
