@@ -54,7 +54,7 @@ def check_entry_condition(df, now_idx, past_idx,
     past_seq = df['close'].iloc[past_idx-window+1 : past_idx+1].values
     corr, sim_dtw, final_score = calc_similarity(now_seq, past_seq)
 
-    cond2 = (corr >= 0.8 and sim_dtw >= 0.8)
+    cond2 = (corr >= 0.6 and sim_dtw >= 0.7)
 
     # --- 조건3: 과거 상승 확인 ---
     if past_idx + future_window < len(df):
