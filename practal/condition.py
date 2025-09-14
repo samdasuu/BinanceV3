@@ -37,8 +37,8 @@ def calc_similarity(seq1, seq2, weight_corr=0.5, weight_dtw=0.5, scale=10.0):
 
 
 def check_entry_condition(df, now_idx, past_idx, 
-                          window=WINDOW, future_window=10, 
-                          vol_mult=2.0, rise_thr=0.03):
+                          window=WINDOW, future_window=20, 
+                          vol_mult=1.5, rise_thr=0.06):
     """
     df: 전처리된 OHLCV 데이터프레임
     now_idx: 현재 이벤트 끝 인덱스

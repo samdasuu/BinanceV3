@@ -1,7 +1,7 @@
 import numpy as np
 from utils.get_data import GetChart
 
-DAY = 100
+DAY = 300
 
 class PreprocessPractal():
     def preprocess_ohlcv(self, df):

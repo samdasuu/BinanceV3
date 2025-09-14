@@ -6,7 +6,7 @@ class EventPractal():
     def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def is_volume_spike(self, row, vol_mult=2.5):
+    def is_volume_spike(self, row, vol_mult=1.5):
         """
         개별 시점(row)이 거래량 스파이크 조건을 만족하는지 확인
         """
@@ -29,7 +29,7 @@ class EventPractal():
         return bool(cond1 or cond2)
 
 
-    def detect_events(self, vol_mult=2.0):
+    def detect_events(self, vol_mult=1.5):
         """
         거래량 스파이크 + 모멘텀 조건이 동시에 충족된 시점들의 인덱스 반환
         """
