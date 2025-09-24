@@ -36,21 +36,20 @@ class EventPractal():
         events = []
         for i in range(len(self.df)):
             row = self.df.iloc[i]
-            # if self.is_volume_spike(row, vol_mult) and self.has_up_momentum(i, lookback_mom):
-            if self.is_volume_spike(row, vol_mult):
+            if self.is_volume_spike(row, vol_mult) and self.has_up_momentum(i, lookback=15):
                 events.append(self.df.index[i])
         return events
 
 
-    # def show_detect_events(self, events):
-    #     plt.figure(figsize=(12,5))
-    #     plt.plot(self.df['close'], label="close")
-    #     plt.scatter(events, self.df.loc[events, 'close'], color='red', marker='^', label="event")
-    #     plt.legend()
-    #     plt.show()
+    def show_detect_events(self, events):
+        plt.figure(figsize=(12,5))
+        plt.plot(self.df['close'], label="close")
+        plt.scatter(events, self.df.loc[events, 'close'], color='red', marker='^', label="event")
+        plt.legend()
+        plt.show()
     
     def run(self):
         events = self.detect_events()
         print('-------------이벤트 포착 완료-------------')
-        # self.show_detect_events(events)
+        self.show_detect_events(events)
         return events

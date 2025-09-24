@@ -1,10 +1,17 @@
 import numpy as np
+import pandas as pd
 from utils.get_data import GetChart
 
 DAY = 300
 
 class PreprocessPractal():
-    def preprocess_ohlcv(self, df):
+    def load_csv_to_df(self, filepath: str) -> pd.DataFrame:
+        # CSV 파일 읽기
+        df = pd.read_csv(filepath)
+        return df
+    
+    def preprocess_ohlcv(self, filepath):
+        df = self.load_csv_to_df(filepath)
         """
         Input:
             df with columns ['open','high','low','close','volume']
@@ -39,8 +46,3 @@ class PreprocessPractal():
         return df
     
 
-    
-    def run(self):
-        chart = GetChart().btc_1min(day = DAY)
-        print('-------------차트 가져오기 완료-------------')
-        return self.preprocess_ohlcv(chart)

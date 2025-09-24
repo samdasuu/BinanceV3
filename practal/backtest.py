@@ -6,7 +6,7 @@ from practal.preprocess import PreprocessPractal
 
 
 def backtest():
-    df = PreprocessPractal().run()
+    df = PreprocessPractal().preprocess_ohlcv('data/training_data.csv')
     events = EventPractal(df).run()
     condition = ConditionPractal(df, events)
     signals = condition.find()
@@ -31,5 +31,5 @@ def backtest():
             "dtw": sig["dtw"],
             "final_score": sig["final_score"]
         })
-
+    print(f'{results["return"]}')
     return pd.DataFrame(results)

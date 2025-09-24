@@ -3,3 +3,4 @@ venv/
 __pycache__/
 __pycache__
 requirements.in
+data/training_data.csv
